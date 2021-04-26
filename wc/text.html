@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>输入框</title>
+  <style>
+    /* 自定义元素没有导入模块时隐藏, 避免内容以无样式的形式显示在页面 */
+    *:not(:defined) {
+      display: none !important;
+    }
+
+    #root {
+      user-select: none;
+    }
+
+    #root>article {
+      background-color: #f5f5f5;
+      border-radius: 6px 6px 0 0;
+      border-bottom: 2px solid gray;
+      padding: 0.5rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "a c"
+        "b c";
+      gap: 0.5rem;
+    }
+
+    #root>article:hover {
+      background-color: #eeeeee;
+    }
+
+    #root>article>header {
+      grid-area: a;
+      font-size: 80%;
+      color: gray;
+    }
+
+    #root>article>div {
+      grid-area: b;
+    }
+
+    #root>article>div>input {
+      outline: none;
+      border: none;
+      background: none;
+      display: inline-block;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0.25rem 0;
+      font-size: 100%;
+    }
+
+    #root>article>div>input[readonly] {
+      cursor: default;
+    }
+
+    #root>article>footer {
+      grid-area: c;
+      align-self: center;
+    }
+
+    #root>footer {
+      font-size: 80%;
+      color: gray;
+    }
+
+    #tipHelp,
+    #tipError {
+      margin: 0 1rem;
+    }
+
+    #tipError {
+      display: none;
+      color: red;
+    }
+
+    #root.error>article>header,
+    #root.error>article>footer {
+      color: red;
+    }
+
+    #root.error>article {
+      border-bottom-color: red;
+    }
+
+    #root.error #tipHelp {
+      display: none;
+    }
+
+    #root.error #tipError {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="root">
+    <article>
+      <header id="label">标签</header>
+      <div>
+        <input id="text">
+      </div>
+      <footer>嵌入元素</footer>
+    </article>
+    <footer>
+      <div id="tipHelp">帮助信息</div>
+      <div id="tipError">错误信息</div>
+    </footer>
+  </div>
+
+  <p>
+    <wc-text wc-label="名字" wc-help="将会公开显示给其他人"></wc-text>
+  </p>
+
+  <p>
+    <wc-text wc-label="金额" wc-value="60" wc-help="填入收款金额" wc-error="金额不得少于100">
+      <b>&#65509;</b>
+    </wc-text>
+  </p>
+
+  <p>
+    <wc-text id="test" wc-label="选择标签" wc-readonly="readonly">
+      <b>&#9873;</b>
+    </wc-text>
+  </p>
+
+  <script>
+    //导入模块并创建
+    let loadAndCreate = async () => {
+      await import('./text.js');
+
+      document.body.querySelector('#test').addEventListener('click', e => {
+        alert('显示选择UI,假设选了"示例"');
+        e.target.setAttribute('wc-value', '示例');
+      });
+
+      // //获取输入
+      // getAttribute('wc-value');
+    };
+    loadAndCreate();
+  </script>
+
+</body>
+
+</html>

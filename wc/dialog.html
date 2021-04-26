@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>对话框</title>
+  <style>
+    /* 自定义元素没有导入模块时隐藏, 避免内容以无样式的形式显示在页面 */
+    *:not(:defined) {
+      display: none !important;
+    }
+
+    /* 必须, 否则无法遮盖 */
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <wc-dialog id="test" wc-title="是否删除" wc-cancel="关闭" wc-button="确定">
+    删除不可恢复
+  </wc-dialog>
+
+  <script>
+    //导入模块并创建
+    let loadAndCreate = async () => {
+      await import('./dialog.js');
+
+      // //监听按钮点击
+      // dialog.addEventListener('custom-button', evt => {
+      //   if (evt.detail !== '确定') {
+      //     return;
+      //   }
+
+      //   data.name = textElement.getAttribute('wc-value');
+      //   console.warn(data);
+      // });
+    };
+    loadAndCreate();
+  </script>
+
+</body>
+
+</html>

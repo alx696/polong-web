@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <title>破笼</title>
+  <link rel="icon" href="img/logo.png">
+  <link rel="stylesheet" href="1.css">
+  <script src="1.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      let host = window.location.host;
+      let version = '1.0.0';
+
+      const params = new URLSearchParams(location.search);
+      if (params.has('port')) {
+        host = `127.0.0.1:${params.get('port')}`;
+      }
+      if (params.has('version')) {
+        version = params.get('version');
+      }
+
+      app.init(host, version);
+    });
+  </script>
+</head>
+
+<body>
+  <div class="ui-menu">
+    <div id="selfInfoPhoto" class="photo"></div>
+    <aside>
+      <span id="addContactButton" class="material-icons app-bar-icon" title="添加破友">person_add</span>
+      <span id="setOptionButton" class="material-icons app-bar-icon" title="设置">settings</span>
+      <span id="appInfoButton" class="material-icons app-bar-icon" title="应用信息">info</span>
+    </aside>
+  </div>
+  <div class="ui-chat-header">
+    <div id="targetPhoto" class="photo"></div>
+    <div id="targetName" class="name">名字</div>
+    <aside>
+      <span id="targetToBlacklist" class="material-icons app-bar-icon" title="加入黑名单">dangerous</span>
+      <span id="targetRemove" class="material-icons app-bar-icon" title="删除">person_remove</span>
+      <span id="targetClearMessage" class="material-icons app-bar-icon" title="清空消息">delete_sweep</span>
+      <span id="targetInfo" class="material-icons app-bar-icon" title="查看信息">perm_contact_calendar</span>
+    </aside>
+    <div id="chatHeader" class="ui-chat-header-overlayer">去中心化对等网络通信</div>
+  </div>
+  <div id="contactList" class="ui-contact">
+    <div class="ui-contact-tips">自动添加内网破友，不想添加可将其加到黑名单中。</div>
+  </div>
+  <div id="state" class="ui-state">状态</div>
+  <div class="ui-chat-main">
+    <div>
+      <div id="chatMessageList"></div>
+    </div>
+    <footer>
+      <div>
+        <input id="sendInputText" type="text" placeholder="输入文字(按enter键发送)">
+      </div>
+      <aside>
+        <span id="sendFile" class="material-icons app-bar-icon" title="发送文件">create_new_folder</span>
+        <span id="sendText" class="material-icons app-bar-icon" title="发送文字">send</span>
+      </aside>
+    </footer>
+    <div class="ui-chat-main-tips">
+      <iframe src="https://lilu.red"></iframe>
+    </div>
+  </div>
+</body>
+
+</html>

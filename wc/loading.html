@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>进度</title>
+  <style>
+    /* 自定义元素没有导入模块时隐藏, 避免内容以无样式的形式显示在页面 */
+    *:not(:defined) {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <wc-loading></wc-loading>
+
+  <script>
+    //导入模块并创建
+    let loadAndCreate = async () => {
+      await import('./loading.js');
+    };
+    loadAndCreate();
+  </script>
+
+</body>
+
+</html>

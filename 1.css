@@ -1,0 +1,449 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style : normal;
+  font-weight: 400;
+  src        : local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family           : 'Material Icons';
+  font-size             : 24px;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+  margin: 0;
+  width : 100%;
+  height: 100%;
+}
+
+body {
+  display              : grid;
+  grid-template-rows   : auto 1fr;
+  grid-template-columns: 300px 1fr;
+  grid-template-areas  : "a b"
+    "c1 d"
+    "c2 d";
+  user-select: none;
+  position   : relative;
+}
+
+wc-dialog {
+  z-index: 10;
+}
+
+button {
+  outline      : none;
+  margin       : 0 0.25rem;
+  border       : 1px solid #e3f2fd;
+  border-radius: 0.3rem;
+  padding      : 0.5rem 1rem;
+  background   : none;
+  color        : #1e88e5;
+  cursor       : pointer;
+}
+
+button:hover {
+  background-color: #e3f2fd;
+}
+
+input {
+  display   : block;
+  box-sizing: border-box;
+  border    : 1px solid #aed581;
+  padding   : 0.5rem;
+}
+
+input:focus {
+  outline: 1px solid #eeeeee;
+}
+
+textarea {
+  display   : block;
+  box-sizing: border-box;
+  border    : 1px solid #aed581;
+  padding   : 0.5rem;
+  width     : 100%;
+  height    : 128px;
+  min-height: 128px;
+  word-break: break-all;
+  resize    : vertical;
+}
+
+textarea:focus {
+  outline: 1px solid #eeeeee;
+}
+
+p.remark {
+  border-left : 0.5rem solid orange;
+  padding-left: 1rem;
+  color       : gray;
+  font-size   : 80%;
+}
+
+div.photo {
+  border-radius      : 100%;
+  width              : 48px;
+  height             : 48px;
+  background-image   : url(img/dove.svg);
+  background-size    : cover;
+  background-position: center;
+  background-repeat  : no-repeat;
+}
+
+div.float-tips {
+  position        : absolute;
+  z-index         : 10;
+  top             : 50%;
+  left            : 50%;
+  transform       : translate(-50%, -50%);
+  box-sizing      : border-box;
+  border-radius   : 3px;
+  padding         : 0.5rem 1rem;
+  background-color: #fffde7;
+  box-shadow      : 3px 3px 6px #cccccc;
+}
+
+span.app-bar-icon {
+  display    : inline-block;
+  margin-left: 0.5rem;
+  cursor     : pointer;
+  color      : #7cb342;
+}
+
+/* 联系人列表项 */
+section.contact {
+  border-bottom        : 1px solid #f5f5f5;
+  padding              : 0.5rem 1rem;
+  display              : grid;
+  grid-template-rows   : auto auto;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas  : "a b c"
+    "a d e";
+  align-items: center;
+}
+
+section.contact:hover {
+  background-color: #fafafa;
+}
+
+section.contact>aside {
+  grid-area: a;
+}
+
+section.contact>div:nth-child(2) {
+  grid-area: b;
+  margin   : 0 0.5rem;
+}
+
+section.contact>div:nth-child(3) {
+  grid-area      : c;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+}
+
+section.contact>div:nth-child(3)>div {
+  border-radius   : 100%;
+  width           : 16px;
+  height          : 16px;
+  padding         : 0.2rem;
+  background-color: red;
+  color           : white;
+  text-align      : center;
+  line-height     : 16px;
+  font-size       : 12px;
+  display         : none;
+}
+
+section.contact>div:nth-child(4) {
+  grid-area: d;
+  margin   : 0 0.5rem;
+  font-size: 14px;
+  color    : gray;
+}
+
+section.contact>div:nth-child(5) {
+  grid-area      : e;
+  font-size      : 14px;
+  color          : gray;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+}
+
+section.contact>div:nth-child(5)>span.material-icons {
+  font-size: 14px;
+}
+
+body>div.ui-menu {
+  grid-area            : a;
+  padding              : 0.5rem 1rem;
+  border-right         : 1px solid #cccccc;
+  border-bottom        : 1px solid #cccccc;
+  display              : grid;
+  grid-template-columns: auto 1fr;
+  gap                  : 1rem;
+  align-items          : center;
+  background-color     : #f5f5f5;
+}
+
+body>div.ui-menu>aside {
+  padding-top: 4px;
+  text-align : right;
+}
+
+body>div.ui-chat-header {
+  grid-area            : b;
+  padding              : 0.5rem 1rem;
+  border-bottom        : 1px solid #cccccc;
+  display              : grid;
+  grid-template-columns: auto auto 1fr;
+  gap                  : 1rem;
+  align-items          : center;
+  background-color     : #f5f5f5;
+  position             : relative;
+}
+
+body>div.ui-chat-header>aside {
+  padding-top: 4px;
+  text-align : right;
+}
+
+body>div.ui-chat-header>div.ui-chat-header-overlayer {
+  position        : absolute;
+  z-index         : 1;
+  top             : 0;
+  right           : 0;
+  bottom          : 0;
+  left            : 0;
+  background-color: white;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+}
+
+body>div.ui-contact {
+  grid-area   : c1;
+  border-right: 1px solid #cccccc;
+  position    : relative;
+}
+
+body>div.ui-contact>section.contact {
+  cursor: pointer;
+}
+
+body>div.ui-contact>section.active {
+  box-shadow: 6px 0 9px #cccccc;
+}
+
+body>div.ui-contact>div.ui-contact-tips {
+  position : absolute;
+  top      : 50%;
+  left     : 50%;
+  transform: translate(-50%, -50%);
+  width    : 90%;
+  color    : gray;
+}
+
+body>div.ui-state {
+  grid-area   : c2;
+  border-top  : 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  padding     : 0.5rem;
+  font-size   : 60%;
+}
+
+body>div.ui-chat-main {
+  grid-area         : d;
+  display           : grid;
+  grid-template-rows: 1fr auto;
+  position          : relative;
+}
+
+body>div.ui-chat-main>div {
+  position: relative;
+}
+
+body>div.ui-chat-main>div>div {
+  position: absolute;
+  top     : 0;
+  left    : 0;
+  width   : 100%;
+  height  : 100%;
+  overflow: auto;
+}
+
+body>div.ui-chat-main>div>div>section.chat-message:last-child {
+  border-bottom: none;
+}
+
+body>div.ui-chat-main>footer {
+  border-top           : 1px solid #cccccc;
+  padding              : 1rem;
+  display              : grid;
+  grid-template-columns: 1fr auto;
+  gap                  : 1rem;
+  align-items          : center;
+}
+
+body>div.ui-chat-main>footer>div>input {
+  width: 100%;
+}
+
+body>div.ui-chat-main>footer>aside {
+  padding-top: 4px;
+}
+
+body>div.ui-chat-main>div.ui-chat-main-tips {
+  position        : absolute;
+  top             : 0;
+  left            : 0;
+  width           : 100%;
+  height          : 100%;
+  background-color: rgba(200, 200, 200, 0.5);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+}
+
+body>div.ui-chat-main>div.ui-chat-main-tips>iframe {
+  border          : none;
+  background-color: white;
+  width           : 480px;
+  height          : 720px;
+}
+
+/* 修改信息表单 */
+form.contact-info-form {
+  display    : flex;
+  align-items: center;
+}
+
+form.contact-info-form>div {
+  margin: 1rem;
+  cursor: pointer;
+}
+
+/* 会话消息 */
+section.chat-message {
+  border-bottom: 1px solid #f5f5f5;
+  margin       : 0.5rem;
+  padding      : 0.5rem 0.5rem 1rem 0.5rem;
+}
+
+section.chat-message>header {
+  font-size: 80%;
+  color    : gray;
+}
+
+section.chat-message>div {
+  user-select: text;
+  word-break : break-all;
+}
+
+section.chat-message-self {
+  text-align: right;
+}
+
+div.chat-message-file-info {
+  display              : inline-grid;
+  grid-template-rows   : auto auto;
+  grid-template-columns: auto auto;
+  grid-template-areas  :
+    "a b"
+    "a c";
+  column-gap : 0.5rem;
+  align-items: center;
+  text-align : left;
+  cursor     : pointer;
+}
+
+div.chat-message-file-info>aside {
+  grid-area: a;
+  color    : #1e88e5;
+}
+
+div.chat-message-file-info>div {
+  grid-area: b;
+}
+
+div.chat-message-file-info>footer {
+  grid-area: c;
+  font-size: 80%;
+  color    : gray;
+}
+
+div.chat-message-file-preview {
+  margin-top: 0.5rem;
+}
+
+div.chat-message-file-preview>img,
+div.chat-message-file-preview>video {
+  max-width : 60vw;
+  max-height: 60vh;
+}
+
+/* 联系人信息卡片 */
+div.contact-info-card {
+  display              : grid;
+  grid-template-columns: 1fr auto;
+  gap                  : 0.5rem;
+  word-break           : break-all;
+  align-items          : center;
+
+}
+
+div.contact-info-card>div {
+  display              : grid;
+  grid-template-columns: auto 1fr auto;
+  gap                  : 0.5rem;
+  row-gap              : 1rem;
+  align-items          : center;
+  border               : 1px solid #cccccc;
+  padding              : 1rem;
+  box-shadow           : 0 0 9px #eeeeee;
+}
+
+div.contact-info-card>div>div.label {
+  color    : gray;
+  font-size: 80%;
+}
+
+div.contact-info-card>div>div.id {
+  font-family: monospace;
+}
+
+div.contact-info-card>div>div.info {
+  display              : grid;
+  grid-template-columns: auto 1fr;
+  gap                  : 0.5rem;
+  align-items          : center;
+}
+
+div.contact-info-card>aside {
+  width : 128px;
+  height: 128px;
+}
+
+/* 添加联系人 */
+wc-dialog.contact-add-window>wc-text {
+  display: block;
+  width  : 600px;
+}
+
+/* 联系人信息 */
+wc-dialog.contact-info-window wc-text[data-id="nameRemark"] {
+  width: 100%;
+}
+
+/* 应用信息 */
+wc-dialog .app-info-window-update-tips {
+  font-size: 24px;
+  color    : orange;
+  display  : none;
+}
