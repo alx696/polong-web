@@ -1277,8 +1277,8 @@ const app = {
 
                 sendChatMessage(text, null);
             });
-            sendInputText.addEventListener('keypress', e => {
-                if (e.code === 'Enter') {
+            sendInputText.addEventListener('keydown', e => {
+                if (e.key.toLowerCase() === 'enter') {
                     sendText.click();
                 }
             });
