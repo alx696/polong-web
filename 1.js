@@ -396,9 +396,9 @@ const app = {
         }
 
         // 文件处理(完成状态或自己发送的: 可以下载, 显示预览)
-        if (data.fileSize > 0 && ((data.state === '完成' && data.fromPeerID !== S.id) || ((data.state === '失败' || data.state === '完成') && data.fromPeerID === S.id))) {
-            const fileName = `${data.fileNameWithoutExtension}.${data.fileExtension}`;
-            const fileURL = `http://${S.host}/api1/file?fileName=${encodeURI(fileName)}`;
+        if (data.file_size > 0 && ((data.state === '完成' && data.fromPeerID !== S.id) || ((data.state === '失败' || data.state === '完成') && data.fromPeerID === S.id))) {
+            const fileName = data.file_name;
+            const fileURL = `http://${S.host}/api1/file?path=${encodeURI(data.file_path)}`;
 
             // 点击文件信息下载
             ui.querySelector('.chat-message-file-info').addEventListener('click', () => {
@@ -415,7 +415,7 @@ const app = {
             });
 
             // 显示预览
-            if (S.imageExtensionArray.includes(data.fileExtension.toLowerCase())) {
+            if (S.imageExtensionArray.includes(data.file_extension.toLowerCase())) {
                 const imagePreview = $e(`<div class="chat-message-file-preview">
                     <img src="${fileURL}">
                 </div>`);
@@ -436,7 +436,7 @@ const app = {
                 });
 
                 contentUI.append(imagePreview);
-            } else if (S.videoExtensionArray.includes(data.fileExtension.toLowerCase())) {
+            } else if (S.videoExtensionArray.includes(data.file_extension.toLowerCase())) {
                 const videoPreview = $e(`<div class="chat-message-file-preview">
                     <video controls src="${fileURL}"></video>
                 </div>`);
@@ -478,11 +478,11 @@ const app = {
           </section>`);
 
             const contentElement = ui.querySelector('div');
-            if (data.fileSize > 0) {
+            if (data.file_size > 0) {
                 const fileElement = $e(`<div class="chat-message-file-info">
                 <aside class="material-icons">attachment</aside>
-                <div>${data.fileNameWithoutExtension}.${data.fileExtension}</div>
-                <footer>${S.fileSize(data.fileSize)}</footer>
+                <div>${data.file_name}</div>
+                <footer>${S.fileSize(data.file_size)}</footer>
               </div>`);
                 contentElement.append(fileElement);
             } else {
@@ -1082,7 +1082,7 @@ const app = {
             });
         };
 
-        // 更新我的信息界面
+        // 初始界面
         const initUI = () => {
             wait.remove();
 
@@ -1196,7 +1196,8 @@ const app = {
                 formData.set('peerID', S.contactActive.id);
                 formData.set('text', text === null ? '' : text);
                 if (fileInfo !== null) {
-                    formData.set('nameWithoutExtension', fileInfo.nameWithoutExtension);
+                    formData.set('path', fileInfo.path);
+                    formData.set('name', fileInfo.name);
                     formData.set('extension', fileInfo.extension);
                     formData.set('size', fileInfo.size);
                 } else {
@@ -1216,6 +1217,43 @@ const app = {
                         }
                     });
             };
+            const sendFile = (file) => {
+                console.debug('发送文件:', file);
+
+                let extension = '';
+                const pointIndex = file.name.lastIndexOf('.');
+                if (pointIndex !== -1) {
+                    extension = file.name.substring(pointIndex + 1);
+                }
+
+                // 上传文件
+                let formData = new FormData();
+                formData.set('name', file.name);
+                formData.set('file', file);
+                fetch(
+                    `http://${S.host}/api1/file`,
+                    {
+                        method: 'POST',
+                        body: formData
+                    }
+                )
+                    .then(resp => {
+                        if (resp.status !== 200) {
+                            alert(resp.status);
+                            return;
+                        }
+
+                        resp.text().then(path => {
+                            console.debug('文件实际存储路径', path);
+                            sendChatMessage(null, {
+                                path: path,
+                                name: file.name,
+                                extension: extension,
+                                size: file.size
+                            });
+                        });
+                    });
+            };
             // 发送文件
             document.body.querySelector('#sendFile').addEventListener('click', () => {
                 if (S.contactActive === null) {
@@ -1226,42 +1264,26 @@ const app = {
                 document.body.append(fileInput);
                 fileInput.addEventListener('change', () => {
                     const file = fileInput.files[0];
-                    console.debug('文件:', file);
-
-                    let nameWithoutExtension = file.name;
-                    let extension = '';
-                    const pointIndex = file.name.lastIndexOf('.');
-                    if (pointIndex !== -1) {
-                        nameWithoutExtension = file.name.substring(0, pointIndex);
-                        extension = file.name.substring(pointIndex + 1);
-                    }
-
-                    let formData = new FormData();
-                    formData.set('nameWithoutExtension', nameWithoutExtension);
-                    formData.set('extension', extension);
-                    formData.set('file', file);
-                    fetch(
-                        `http://${S.host}/api1/file`,
-                        {
-                            method: 'POST',
-                            body: formData
-                        }
-                    )
-                        .then(resp => {
-                            if (resp.status !== 200) {
-                                alert(resp.status);
-                                return;
-                            }
-
-                            sendChatMessage(null, {
-                                nameWithoutExtension: nameWithoutExtension,
-                                extension: extension,
-                                size: file.size
-                            });
-                        });
+                    console.debug('选择文件: ', file.path);
+                    sendFile(file);
                 });
                 fileInput.click();
             });
+            // 拖放文件
+            document.body.querySelector('.ui-chat-main').addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            
+                for (const file of e.dataTransfer.files) {
+                  console.debug('拖放文件: ', file.path);
+                  sendFile(file);
+                }
+              });
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
             // 发送文字
             const sendInputText = document.body.querySelector('#sendInputText');
             const sendText = document.body.querySelector('#sendText');
