@@ -1040,13 +1040,17 @@ const app = {
 
                     //通知提醒
                     if (document.hidden) {
-                        new Notification(
+                        const notification = new Notification(
                             `${contact.name} 发来消息`,
                             {
                                 tag: contact.id,
-                                body: `${chatMessage.fileSize > 0 ? `${chatMessage.fileNameWithoutExtension}.${chatMessage.fileExtension}` : chatMessage.text}`
+                                body: `${chatMessage.file_size > 0 ? `${chatMessage.file_name}` : chatMessage.text}`
                             }
                         );
+                        notification.addEventListener('click', () => {
+                            console.debug('点击通知');
+                            window.electron.appShow();
+                        });
                     }
 
                     if (S.contactActive !== null && (push.id === S.contactActive.id || push.id === S.id)) {
